@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title mb-4">Purchase History</h2>
+        {% if orders %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Product</th>
+                            <th>Store</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>{{ order.date_ordered.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ order.product_name }}</td>
+                            <td>{{ order.store }}</td>
+                            <td>₹{{ "{:,.2f}".format(order.price) }}</td>
+                            <td>{{ order.quantity }}</td>
+                            <td>₹{{ "{:,.2f}".format(order.price * order.quantity) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-center">No purchase history available</p>
+            <div class="text-center">
+                <a href="{{ url_for('search') }}" class="btn btn-primary">Start Shopping</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

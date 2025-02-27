@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Find Deals</h2>
+                <form method="POST" action="{{ url_for('search') }}">
+                    {{ form.hidden_tag() }}
+                    <div class="input-group">
+                        {{ form.query(class="form-control", placeholder="Search by brand (Apple, Samsung, Sony), category (phone, laptop, headphone) or model (iPhone 15, Galaxy S24)...") }}
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if results %}
+<div class="row g-4">
+    {% for item in results %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+            <img src="{{ item.image }}" class="card-img-top" alt="{{ item.description }}" style="height: 200px; object-fit: contain; padding: 1rem;">
+            <div class="card-body">
+                <span class="badge bg-primary mb-2">{{ item.brand }}</span>
+                <h5 class="card-title">{{ item.description }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ item.store }}</h6>
+                <p class="card-text">
+                    <strong>Price:</strong> ₹{{ "{:,.2f}".format(item.price) }}
+                </p>
+                <a href="{{ url_for('add_to_cart', store=item.store, product=item.product_name, price=item.price) }}" 
+                   class="btn btn-primary">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% elif form.query.data %}
+<div class="alert alert-info text-center">
+    No products found matching your search. Try searching by brand name (e.g., Apple, Samsung), category (e.g., phone, laptop), or specific model (e.g., iPhone 15, Galaxy S24).
+</div>
+{% endif %}
+{% endblock %}

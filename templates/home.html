@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4 mb-4">Welcome to PriceCompare</h1>
+    <p class="lead mb-4">Find the best deals across multiple stores</p>
+    
+    {% if current_user.is_authenticated %}
+        <div class="row justify-content-center g-4">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3 class="card-title">Find Deals</h3>
+                        <p class="card-text">Search and compare prices across stores</p>
+                        <a href="{{ url_for('search') }}" class="btn btn-primary">Start Shopping</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3 class="card-title">Your Cart</h3>
+                        <p class="card-text">View your selected items</p>
+                        <a href="{{ url_for('cart') }}" class="btn btn-primary">View Cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3 class="card-title">Purchase History</h3>
+                        <p class="card-text">Track your previous orders</p>
+                        <a href="{{ url_for('history') }}" class="btn btn-primary">View History</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row justify-content-center g-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h3 class="card-title">Get Started</h3>
+                        <p class="card-text">Login or create an account to start comparing prices</p>
+                        <a href="{{ url_for('login') }}" class="btn btn-primary me-2">Login</a>
+                        <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
